@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+    # MySQL Database
+    mysql:
+        image: mysql:8.0
+        container_name: iq-test-mysql
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: iq_test
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql_data:/var/lib/mysql
+            - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+            timeout: 20s
+            retries: 10
+
+    # Backend API
+    backend:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
+        container_name: iq-test-backend
+        restart: always
+        environment:
+            PORT: 3001
+            DATABASE_URL: mysql://root:password@mysql:3306/iq_test
+            JWT_SECRET: your-super-secret-jwt-key-change-in-production
+            FRONTEND_URL: http://localhost:5173
+        ports:
+            - "3001:3001"
+        depends_on:
+            mysql:
+                condition: service_healthy
+        command: sh -c "sleep 10 && npm run db:push && npm run db:seed && npm run start"
+
+    # Frontend
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+            args:
+                VITE_API_URL: http://localhost:3001/api
+        container_name: iq-test-frontend
+        restart: always
+        ports:
+            - "5173:80"
+        depends_on:
+            - backend
+
+volumes:
+    mysql_data:
