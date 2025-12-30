@@ -1,26 +1,26 @@
 import { db } from "./index.js"; // таны db холболт
-import { users, questions } from "./schema.js"; // таны schema файл
+import { users, questions, tests, questionOptions } from "./schema.js"; // таны schema файл
 import bcrypt from "bcryptjs";
 
 // IQ тестийн асуултууд
 const iqQuestions = [
     {
         questionText: "Хэрэв 2 + 3 = 10, 7 + 2 = 63, 6 + 5 = 66, 8 + 4 = ?",
-        optionA: "96",
-        optionB: "32",
-        optionC: "12",
-        optionD: "108",
-        correctAnswer: "A",
-        difficulty: 2,
+        options: [
+            { label: "A", optionText: "96", isCorrect: 0 },
+            { label: "B", optionText: "32", isCorrect: 0 },
+            { label: "C", optionText: "12", isCorrect: 0 },
+            { label: "D", optionText: "108", isCorrect: 1 },
+        ],
     },
     {
         questionText: "Дараах дарааллын дараагийн тоо юу вэ? 2, 6, 12, 20, 30, ?",
-        optionA: "40",
-        optionB: "42",
-        optionC: "38",
-        optionD: "44",
-        correctAnswer: "B",
-        difficulty: 2,
+        options: [
+            { label: "A", optionText: "40", isCorrect: 0 },
+            { label: "B", optionText: "42", isCorrect: 1 },
+            { label: "C", optionText: "38", isCorrect: 0 },
+            { label: "D", optionText: "44", isCorrect: 0 },
+        ],
     },
 ];
 
@@ -50,11 +50,44 @@ async function seed() {
         });
         console.log("✅ Test user created");
 
-        // Асуултуудыг суулгах (drizzle schema uses camelCase property names)
-        for (const question of iqQuestions) {
-            await db.insert(questions).values(question);
+        // Create a default test first
+        const testInsert = await db.insert(tests).values({
+            slug: "default-iq-test",
+            title: "Default IQ Test",
+            description: "Auto-generated IQ test",
+            durationMinutes: 15,
+            published: 1,
+        });
+
+        const testId = testInsert[0] && testInsert[0].insertId ? testInsert[0].insertId : null;
+        if (!testId) {
+            console.error("❌ Test creation failed");
+            process.exit(1);
         }
-        console.log(`✅ ${iqQuestions.length} questions inserted`);
+        console.log(`✅ Test created with ID: ${testId}`);
+
+        // Асуултууд болон тэдгээрийн сонголтуудыг суулгах (testId-тай)
+        for (let i = 0; i < iqQuestions.length; i++) {
+            const question = iqQuestions[i];
+            const qInsert = await db.insert(questions).values({
+                testId: testId,
+                questionText: question.questionText,
+                imageUrl: question.imageUrl || null,
+                questionOrder: i + 1,
+            });
+            const qId = qInsert[0] && qInsert[0].insertId ? qInsert[0].insertId : null;
+            if (qId && Array.isArray(question.options)) {
+                for (const opt of question.options) {
+                    await db.insert(questionOptions).values({
+                        questionId: qId,
+                        label: opt.label,
+                        optionText: opt.optionText,
+                        isCorrect: opt.isCorrect ? 1 : 0,
+                    });
+                }
+            }
+        }
+        console.log(`✅ ${iqQuestions.length} questions and options inserted`);
 
         console.log("🎉 Seeding completed successfully!");
         process.exit(0);

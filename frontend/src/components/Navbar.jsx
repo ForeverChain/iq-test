@@ -38,7 +38,7 @@ const Navbar = () => {
                                     Үр дүн
                                 </Link>
                                 <Link to="/account" className="text-gray-600 hover:text-primary-600 transition-colors">
-                                    Данс
+                                    Хаяг
                                 </Link>
                                 {user.role === "admin" && (
                                     <Link to="/admin" className="text-gray-600 hover:text-primary-600 transition-colors">
@@ -93,7 +93,7 @@ const Navbar = () => {
                                     Үр дүн
                                 </Link>
                                 <Link to="/account" className="block text-gray-600 hover:text-primary-600" onClick={() => setIsOpen(false)}>
-                                    Данс
+                                    Хаяг
                                 </Link>
                                 {user.role === "admin" && (
                                     <Link to="/admin" className="block text-gray-600 hover:text-primary-600" onClick={() => setIsOpen(false)}>

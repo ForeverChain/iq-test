@@ -1,6 +1,6 @@
-import { mysqlTable, int, varchar, text, decimal, timestamp, mysqlEnum } from "drizzle-orm/mysql-core";
+import { mysqlTable, int, varchar, text, decimal, timestamp, mysqlEnum, boolean } from "drizzle-orm/mysql-core";
 
-// Users table
+/* ================= USERS ================= */
 export const users = mysqlTable("users", {
     id: int("id").primaryKey().autoincrement(),
     username: varchar("username", { length: 255 }).notNull().unique(),
@@ -11,81 +11,98 @@ export const users = mysqlTable("users", {
     createdAt: timestamp("created_at").defaultNow(),
 });
 
-// Questions table
+/* ================= QUESTIONS ================= */
 export const questions = mysqlTable("questions", {
     id: int("id").primaryKey().autoincrement(),
+    testId: int("test_id")
+        .notNull()
+        .references(() => tests.id, { onDelete: "cascade" }),
     questionText: text("question_text").notNull(),
-    optionA: varchar("option_a", { length: 500 }).notNull(),
-    optionB: varchar("option_b", { length: 500 }).notNull(),
-    optionC: varchar("option_c", { length: 500 }).notNull(),
-    optionD: varchar("option_d", { length: 500 }).notNull(),
-    correctAnswer: varchar("correct_answer", { length: 1 }).notNull(),
     imageUrl: varchar("image_url", { length: 500 }),
+
+    questionType: mysqlEnum("question_type", ["multiple_choice", "short_answer", "numeric", "grid"]).notNull().default("multiple_choice"),
+
+    correctAnswer: varchar("correct_answer", { length: 255 }),
+    gridData: text("grid_data"),
     difficulty: int("difficulty").default(1),
+    questionOrder: int("question_order").default(0),
     createdAt: timestamp("created_at").defaultNow(),
 });
 
-// Test results table
-export const testResults = mysqlTable("test_results", {
+/* ================= QUESTION IMAGES ================= */
+export const questionImages = mysqlTable("question_images", {
     id: int("id").primaryKey().autoincrement(),
-    userId: int("user_id")
-        .notNull()
-        .references(() => users.id),
-    score: int("score").notNull(),
-    totalQuestions: int("total_questions").notNull(),
-    testId: int("test_id").references(() => tests.id),
-    iqScore: int("iq_score").notNull(),
-    completedAt: timestamp("completed_at").defaultNow(),
-});
-
-// User answers table
-export const userAnswers = mysqlTable("user_answers", {
-    id: int("id").primaryKey().autoincrement(),
-    testResultId: int("test_result_id")
-        .notNull()
-        .references(() => testResults.id),
     questionId: int("question_id")
         .notNull()
-        .references(() => questions.id),
-    selectedAnswer: varchar("selected_answer", { length: 1 }).notNull(),
-    isCorrect: int("is_correct").notNull(),
+        .references(() => questions.id, { onDelete: "cascade" }),
+    imageUrl: varchar("image_url", { length: 500 }).notNull(),
+    imageOrder: int("image_order").default(0),
 });
 
-// Transactions table
-export const transactions = mysqlTable("transactions", {
+/* ================= OPTIONS ================= */
+export const questionOptions = mysqlTable("question_options", {
     id: int("id").primaryKey().autoincrement(),
-    senderId: int("sender_id")
+    questionId: int("question_id")
         .notNull()
-        .references(() => users.id),
-    receiverId: int("receiver_id")
-        .notNull()
-        .references(() => users.id),
-    amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
-    status: mysqlEnum("status", ["pending", "completed", "failed"]).default("pending"),
-    createdAt: timestamp("created_at").defaultNow(),
+        .references(() => questions.id, { onDelete: "cascade" }),
+    label: varchar("label", { length: 32 }),
+    optionText: varchar("option_text", { length: 500 }),
+    imageUrl: varchar("image_url", { length: 500 }),
+    isCorrect: boolean("is_correct").default(false),
 });
 
-// Tests metadata (supports multiple different tests)
+/* ================= TESTS ================= */
 export const tests = mysqlTable("tests", {
     id: int("id").primaryKey().autoincrement(),
     slug: varchar("slug", { length: 255 }).notNull().unique(),
     title: varchar("title", { length: 255 }).notNull(),
     description: text("description"),
-    durationMinutes: int("duration_minutes").default(null),
-    totalQuestions: int("total_questions").default(null),
-    published: int("published").default(0),
+    durationMinutes: int("duration_minutes"),
+    published: boolean("published").default(false),
     createdAt: timestamp("created_at").defaultNow(),
 });
 
-// Junction table linking tests to questions and ordering
-export const testQuestions = mysqlTable("test_questions", {
+/* ================= RESULTS ================= */
+export const testResults = mysqlTable("test_results", {
     id: int("id").primaryKey().autoincrement(),
-    testId: int("test_id")
+    userId: int("user_id")
         .notNull()
-        .references(() => tests.id),
+        .references(() => users.id, { onDelete: "cascade" }),
+    testId: int("test_id").references(() => tests.id, {
+        onDelete: "set null",
+    }),
+    score: int("score").notNull(),
+    totalQuestions: int("total_questions").notNull(),
+    iqScore: int("iq_score").notNull(),
+    completedAt: timestamp("completed_at").defaultNow(),
+});
+
+/* ================= USER ANSWERS ================= */
+export const userAnswers = mysqlTable("user_answers", {
+    id: int("id").primaryKey().autoincrement(),
+    testResultId: int("test_result_id")
+        .notNull()
+        .references(() => testResults.id, { onDelete: "cascade" }),
     questionId: int("question_id")
         .notNull()
-        .references(() => questions.id),
-    questionOrder: int("question_order").default(0),
-    points: int("points").default(1),
+        .references(() => questions.id, { onDelete: "cascade" }),
+
+    selectedOptionId: int("selected_option_id").references(() => questionOptions.id),
+
+    answerText: varchar("answer_text", { length: 255 }),
+    isCorrect: boolean("is_correct").notNull(),
+});
+
+/* ================= TRANSACTIONS ================= */
+export const transactions = mysqlTable("transactions", {
+    id: int("id").primaryKey().autoincrement(),
+    senderId: int("sender_id")
+        .notNull()
+        .references(() => users.id, { onDelete: "restrict" }),
+    receiverId: int("receiver_id")
+        .notNull()
+        .references(() => users.id, { onDelete: "restrict" }),
+    amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+    status: mysqlEnum("status", ["pending", "completed", "failed"]).default("pending"),
+    createdAt: timestamp("created_at").defaultNow(),
 });

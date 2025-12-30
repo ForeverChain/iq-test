@@ -69,4 +69,22 @@ export const getAllTransactions = () => api.get("/transactions/admin/all");
 
 export const updateTransactionStatus = (id, status) => api.patch(`/transactions/admin/${id}/status`, { status });
 
+// Admin - questions/tests
+export const getAdminQuestions = (testId) => api.get(`/admin/questions${testId ? `?testId=${testId}` : ""}`);
+export const createQuestion = (payload) => api.post("/admin/questions", payload);
+export const deleteQuestion = (id) => api.delete(`/admin/questions/${id}`);
+export const updateQuestion = (id, payload) => api.patch(`/admin/questions/${id}`, payload);
+export const uploadImage = (file) => {
+    const formData = new FormData();
+    formData.append("image", file);
+    return api.post("/admin/upload-image", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+    });
+};
+
+export const getAllTests = () => api.get("/admin/tests");
+export const createTest = (payload) => api.post("/admin/tests", payload);
+export const updateTest = (id, payload) => api.patch(`/admin/tests/${id}`, payload);
+export const deleteTest = (id) => api.delete(`/admin/tests/${id}`);
+
 export default api;

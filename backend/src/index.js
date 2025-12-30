@@ -1,11 +1,16 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 import { testConnection } from "./db/index.js";
 import authRoutes from "./routes/auth.js";
 import testRoutes from "./routes/test.js";
 import transactionRoutes from "./routes/transactions.js";
 import adminRoutes from "./routes/admin.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -20,6 +25,9 @@ app.use(
     })
 );
 app.use(express.json());
+
+// Serve static files from uploads directory
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 // Health check
 app.get("/health", (req, res) => {

@@ -50,7 +50,7 @@ const Register = () => {
                             <Brain className="w-12 h-12 text-primary-600" />
                         </div>
                         <h2 className="text-2xl font-bold text-gray-900">Бүртгүүлэх</h2>
-                        <p className="text-gray-500 mt-2">Шинэ данс үүсгэж тест өгөөрэй</p>
+                        <p className="text-gray-500 mt-2">Шинэ хаяг үүсгэж тест өгөөрэй</p>
                     </div>
 
                     {error && (
@@ -100,7 +100,7 @@ const Register = () => {
 
                     <div className="mt-6 text-center">
                         <p className="text-gray-600">
-                            Данс байгаа юу?{" "}
+                            Хаяг байгаа юу?{" "}
                             <Link to="/login" className="text-primary-600 hover:text-primary-700 font-medium">
                                 Нэвтрэх
                             </Link>

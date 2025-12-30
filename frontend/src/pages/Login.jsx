@@ -37,7 +37,7 @@ const Login = () => {
                             <Brain className="w-12 h-12 text-primary-600" />
                         </div>
                         <h2 className="text-2xl font-bold text-gray-900">Нэвтрэх</h2>
-                        <p className="text-gray-500 mt-2">Дансандаа нэвтэрч тест өгөөрэй</p>
+                        <p className="text-gray-500 mt-2">Хаягаараа нэвтэрч тест өгөөрэй</p>
                     </div>
 
                     {error && (
@@ -75,17 +75,10 @@ const Login = () => {
 
                     <div className="mt-6 text-center">
                         <p className="text-gray-600">
-                            Данс байхгүй юу?{" "}
+                            Хаяг байхгүй юу?{" "}
                             <Link to="/register" className="text-primary-600 hover:text-primary-700 font-medium">
                                 Бүртгүүлэх
                             </Link>
-                        </p>
-                    </div>
-
-                    <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-                        <p className="text-sm text-gray-500 text-center">
-                            Туршилтын данс: <br />
-                            <span className="font-mono">admin@iqtest.com / admin123</span>
                         </p>
                     </div>
                 </div>
