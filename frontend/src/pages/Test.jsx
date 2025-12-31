@@ -124,9 +124,9 @@ const Test = () => {
                             {/* Banner */}
                             <div className="relative bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 rounded-xl p-4 overflow-hidden">
                                 <div className="relative z-10">
-                                    <h3 className="text-white font-bold text-lg mb-1">Test Your Knowledge</h3>
-                                    <p className="text-blue-200 text-sm mb-3">with Quizzes</p>
-                                    <button className="bg-white text-blue-600 px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-50">Play Now</button>
+                                    <h3 className="text-white font-bold text-lg mb-1">Мэдлэгээ шалга</h3>
+                                    <p className="text-blue-200 text-sm mb-3">тестүүдээр</p>
+                                    <button className="bg-white text-blue-600 px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-blue-50">Эхлэх</button>
                                 </div>
                                 <div className="absolute right-0 top-0 opacity-20">
                                     <svg width="120" height="120" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -144,13 +144,13 @@ const Test = () => {
                         <div className="bg-white rounded-2xl shadow-xl p-4 hidden md:block">
                             <div className="relative">
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                <input type="text" placeholder="Search" className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                <input type="text" placeholder="Хайх" className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
                             </div>
                         </div>
 
                         {/* Categories */}
                         <div className="bg-white rounded-2xl shadow-xl p-4 hidden md:block">
-                            <h3 className="font-bold text-gray-900 mb-4">Categories</h3>
+                            <h3 className="font-bold text-gray-900 mb-4">Ангилалууд</h3>
                             <div className="grid grid-cols-3 gap-3">
                                 {categories.map((cat) => (
                                     <div key={cat.id} className="text-center">
@@ -165,7 +165,7 @@ const Test = () => {
 
                         {/* Recent Activity */}
                         <div className="bg-white rounded-2xl shadow-xl p-4 hidden md:block">
-                            <h3 className="font-bold text-gray-900 mb-4">Recent Activity</h3>
+                            <h3 className="font-bold text-gray-900 mb-4">Сүүлд болсон үйлдэл</h3>
                             <div className="space-y-3">
                                 {categories.map((cat, idx) => (
                                     <div key={idx} className="flex items-center justify-between">
@@ -195,10 +195,10 @@ const Test = () => {
                                         <ChevronLeft className="w-5 h-5" />
                                     </button>
                                     <div className="text-center">
-                                        <h2 className="font-bold text-gray-900">IQ Test</h2>
-                                        <p className="text-sm text-gray-500">{questions.length} Question</p>
+                                        <h2 className="font-bold text-gray-900">IQ тест</h2>
+                                        <p className="text-sm text-gray-500">{questions.length} асуулт</p>
                                     </div>
-                                    <button className="px-4 py-1.5 bg-red-100 text-red-600 rounded-lg text-sm font-medium hover:bg-red-200">Quit</button>
+                                    <button className="px-4 py-1.5 bg-red-100 text-red-600 rounded-lg text-sm font-medium hover:bg-red-200">Гарах</button>
                                 </div>
                             </div>
 
@@ -206,9 +206,9 @@ const Test = () => {
                             <div className="px-6 py-3 border-b border-gray-100">
                                 <div className="flex justify-between text-sm text-gray-600 mb-2">
                                     <span>
-                                        Question: {currentIndex + 1}/{questions.length}
+                                        Асуулт: {currentIndex + 1}/{questions.length}
                                     </span>
-                                    <span className="text-blue-600 font-medium">{Math.round(progress)}% Complete</span>
+                                    <span className="text-blue-600 font-medium">{Math.round(progress)}% дууссан</span>
                                 </div>
                                 <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                                     <div className="h-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-all duration-300" style={{ width: `${progress}%` }} />
@@ -218,7 +218,7 @@ const Test = () => {
                             {/* Question Content */}
                             <div className="p-6 md:p-8 min-h-[400px]">
                                 <p className="text-sm text-gray-500 mb-3">
-                                    Question: {currentIndex + 1}/{questions.length}
+                                    Асуулт: {currentIndex + 1}/{questions.length}
                                 </p>
                                 <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">{currentQuestion?.questionText}</h3>
 
@@ -258,23 +258,23 @@ const Test = () => {
                                 </div>
 
                                 <div className="mt-6 text-center">
-                                    <button className="text-blue-600 hover:text-blue-700 text-sm font-medium">See Result ⟶</button>
+                                    <button className="text-blue-600 hover:text-blue-700 text-sm font-medium">Үр дүнг харах ⟶</button>
                                 </div>
                             </div>
 
                             {/* Navigation Footer */}
                             <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-between items-center">
                                 <button onClick={handlePrev} disabled={currentIndex === 0} className="px-6 py-2.5 bg-white border-2 border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all">
-                                    Previous
+                                    Өмнөх
                                 </button>
 
                                 {currentIndex === questions.length - 1 ? (
                                     <button onClick={handleSubmit} disabled={submitting} className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 disabled:opacity-50 shadow-lg shadow-blue-200">
-                                        {submitting ? "Submitting..." : "Submit Test"}
+                                        {submitting ? "Илгээж байна..." : "Тест илгээх"}
                                     </button>
                                 ) : (
                                     <button onClick={handleNext} className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-200">
-                                        Next
+                                        Дараах
                                     </button>
                                 )}
                             </div>
@@ -287,7 +287,7 @@ const Test = () => {
                             <div className="text-center">
                                 <div className="w-48 h-48 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center relative shadow-2xl">
                                     <div className="absolute inset-4 bg-white rounded-full flex items-center justify-center flex-col">
-                                        <p className="text-gray-600 text-sm font-medium mb-1">Your Score</p>
+                                        <p className="text-gray-600 text-sm font-medium mb-1">Таны оноо</p>
                                         <p className="text-5xl font-bold text-gray-900">
                                             {answeredCount}/{questions.length}
                                         </p>
@@ -295,13 +295,13 @@ const Test = () => {
                                 </div>
 
                                 <div className="mt-8 space-y-4">
-                                    <h3 className="text-2xl font-bold text-gray-900">Keep Going!</h3>
-                                    <p className="text-gray-600">You're doing great! {questions.length - answeredCount} questions left</p>
+                                    <h3 className="text-2xl font-bold text-gray-900">Үргэлжлүүлээрэй!</h3>
+                                    <p className="text-gray-600">Сайн явж байна! {questions.length - answeredCount} асуулт үлдсэн</p>
 
                                     <div className="pt-6 space-y-3">
-                                        <button className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg">Share</button>
+                                        <button className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg">Хуваалцах</button>
                                         <button onClick={() => navigate("/")} className="w-full py-3 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200">
-                                            Back to Home
+                                            Эх хуудас руу буцах
                                         </button>
                                     </div>
                                 </div>
@@ -314,19 +314,19 @@ const Test = () => {
                 <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 flex justify-around items-center shadow-lg">
                     <button onClick={() => navigate("/")} className="flex flex-col items-center gap-1">
                         <Home className="w-5 h-5 text-gray-600" />
-                        <span className="text-xs text-gray-600">Home</span>
+                        <span className="text-xs text-gray-600">Эх</span>
                     </button>
                     <button className="flex flex-col items-center gap-1">
                         <Grid className="w-5 h-5 text-blue-600" />
-                        <span className="text-xs text-blue-600 font-medium">Quiz</span>
+                        <span className="text-xs text-blue-600 font-medium">Тест</span>
                     </button>
                     <button className="flex flex-col items-center gap-1">
                         <Heart className="w-5 h-5 text-gray-600" />
-                        <span className="text-xs text-gray-600">Saved</span>
+                        <span className="text-xs text-gray-600">Хадгалсан</span>
                     </button>
                     <button className="flex flex-col items-center gap-1">
                         <User className="w-5 h-5 text-gray-600" />
-                        <span className="text-xs text-gray-600">Profile</span>
+                        <span className="text-xs text-gray-600">Профайл</span>
                     </button>
                 </div>
             </div>

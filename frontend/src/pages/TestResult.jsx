@@ -74,7 +74,7 @@ const TestResult = () => {
                             <Link to="/results" className="p-2 hover:bg-gray-200 rounded-lg transition-colors">
                                 <ArrowLeft className="w-5 h-5" />
                             </Link>
-                            <h2 className="font-bold text-gray-900">Test Result</h2>
+                            <h2 className="font-bold text-gray-900">Тестийн үр дүн</h2>
                             <div className="w-9"></div>
                         </div>
                     </div>
@@ -83,7 +83,7 @@ const TestResult = () => {
                     <div className="py-12 px-6 text-center">
                         <div className="w-56 h-56 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center relative shadow-2xl">
                             <div className="absolute inset-4 bg-white rounded-full flex items-center justify-center flex-col">
-                                <p className="text-gray-600 font-medium mb-1">Your Score</p>
+                                <p className="text-gray-600 font-medium mb-1">Таны оноо</p>
                                 <p className="text-6xl font-bold text-gray-900">
                                     {result.score}/{result.totalQuestions}
                                 </p>
@@ -91,8 +91,8 @@ const TestResult = () => {
                         </div>
 
                         <div className="mt-8">
-                            <h1 className="text-3xl font-bold text-gray-900 mb-2">Congratulation</h1>
-                            <p className="text-lg text-gray-600">Great job, {user?.username || "User"}! You Did it</p>
+                            <h1 className="text-3xl font-bold text-gray-900 mb-2">Баяр хүргэе</h1>
+                            <p className="text-lg text-gray-600">Сайхан хийлээ, {user?.username || "Хэрэглэгч"}! Амжилттай дуусгалаа</p>
                         </div>
 
                         {/* Stats */}
@@ -100,14 +100,14 @@ const TestResult = () => {
                             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-4 border border-green-100">
                                 <div className="flex items-center justify-center gap-2 text-green-600 mb-1">
                                     <CheckCircle className="w-5 h-5" />
-                                    <span className="font-medium">Correct</span>
+                                    <span className="font-medium">Зөв</span>
                                 </div>
                                 <div className="text-3xl font-bold text-green-700">{result.score}</div>
                             </div>
                             <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-4 border border-blue-100">
                                 <div className="flex items-center justify-center gap-2 text-blue-600 mb-1">
                                     <Target className="w-5 h-5" />
-                                    <span className="font-medium">Accuracy</span>
+                                    <span className="font-medium">Нарийвчлал</span>
                                 </div>
                                 <div className="text-3xl font-bold text-blue-700">{result.percentage}%</div>
                             </div>
@@ -117,7 +117,7 @@ const TestResult = () => {
                         <div className="mt-6 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl border border-purple-100">
                             <div className="flex items-center justify-center gap-2 mb-2">
                                 <Brain className="w-6 h-6 text-purple-600" />
-                                <span className="font-bold text-gray-900">IQ Score</span>
+                                <span className="font-bold text-gray-900">IQ оноо</span>
                             </div>
                             <div className="text-4xl font-bold text-purple-600 mb-1">{result.iqScore}</div>
                             <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full ${category.bg} ${category.color} text-sm font-medium`}>
@@ -133,21 +133,21 @@ const TestResult = () => {
                             onClick={() => {
                                 if (navigator.share) {
                                     navigator.share({
-                                        title: "My IQ Test Result",
-                                        text: `I scored ${result.score}/${result.totalQuestions} with an IQ of ${result.iqScore}!`,
+                                        title: "Миний IQ тестийн үр дүн",
+                                        text: `Би ${result.score}/${result.totalQuestions} оноо авсан, IQ = ${result.iqScore}!`,
                                     });
                                 }
                             }}
                             className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-200 flex items-center justify-center gap-2">
                             <Share2 className="w-5 h-5" />
-                            Share
+                            Хуваалцах
                         </button>
                         <Link to="/" className="block w-full py-3.5 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 text-center flex items-center justify-center gap-2">
                             <HomeIcon className="w-5 h-5" />
-                            Back to Home
+                            Эх хуудас руу буцах
                         </Link>
                         <button onClick={() => setShowAnswers(!showAnswers)} className="w-full py-3.5 bg-white border-2 border-gray-300 text-gray-700 rounded-xl font-medium hover:bg-gray-50">
-                            {showAnswers ? "Hide Answers" : "View All Answers"}
+                            {showAnswers ? "Хариуг нуух" : "Бүх хариуг харах"}
                         </button>
                     </div>
                 </div>
@@ -156,7 +156,7 @@ const TestResult = () => {
                 {showAnswers && details?.answers && (
                     <div className="mt-6 bg-white rounded-3xl shadow-2xl overflow-hidden">
                         <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
-                            <h2 className="text-xl font-bold text-gray-900">Answer Details</h2>
+                            <h2 className="text-xl font-bold text-gray-900">Хариултын дэлгэрэнгүй</h2>
                         </div>
                         <div className="p-6 space-y-4 max-h-[600px] overflow-y-auto">
                             {details.answers.map((answer, index) => (
@@ -169,11 +169,11 @@ const TestResult = () => {
                                             </p>
                                             <div className="text-sm space-y-1">
                                                 <p>
-                                                    <span className="text-gray-500">Your answer:</span> <span className={answer.isCorrect ? "text-green-600 font-medium" : "text-red-600 font-medium"}>{answer.selectedAnswer || "Not answered"}</span>
+                                                    <span className="text-gray-500">Таны хариулт:</span> <span className={answer.isCorrect ? "text-green-600 font-medium" : "text-red-600 font-medium"}>{answer.selectedAnswer || "Хариулсангүй"}</span>
                                                 </p>
                                                 {!answer.isCorrect && (
                                                     <p>
-                                                        <span className="text-gray-500">Correct answer:</span> <span className="text-green-600 font-medium">{answer.correctAnswer}</span>
+                                                        <span className="text-gray-500">Зөв хариулт:</span> <span className="text-green-600 font-medium">{answer.correctAnswer}</span>
                                                     </p>
                                                 )}
                                             </div>
